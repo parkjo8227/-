@@ -1,0 +1,31 @@
+import csv
+import matplotlib.pyplot as plt
+
+
+f = open('age.csv')
+data=csv.reader(f)
+
+student=0
+thing=0
+baby=0
+sum=[]
+print("학령인구는 6세부터 21세입니다")
+name=input('학령인구 비율을 알고싶은 지역의 이름을 입력하세요: ')
+
+for row in data:
+    if name in row[0]:
+        for i in row[3:8]:                            #0세~5세까지
+            baby=baby+int(i.replace(',',''))
+        for i in row[9:24]:                           #6세~21세까지
+            student=student+int(i.replace(',',''))
+        for i in row[25:]:                            #22세~
+            thing=thing+int(i.replace(',',''))
+        sum = thing +baby                            #학령인구를 제외한 나머지 인구
+
+plt.style.use('ggplot')
+plt.rc('font', family='malgun Gothic')
+plt.rcParams['axes.unicode_minus']=False
+plt.title(name +' 의 학령인구 비율')
+plt.pie([student,sum],labels=['학령인구','나머지인구'],autopct='%.1f%%',explode=(0.1,0))
+plt.legend()
+plt.show()
